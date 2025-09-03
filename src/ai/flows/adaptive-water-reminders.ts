@@ -77,10 +77,19 @@ const adaptiveRemindersFlow = ai.defineFlow(
     outputSchema: AdaptiveRemindersOutputSchema,
   },
   async input => {
-    const {output} = await adaptiveRemindersPrompt(input);
-    if (!output) {
-      throw new Error("AI failed to generate a response.");
+    // ---- Logging untuk memeriksa input Anda ----
+    console.log('Data input yang dikirim ke AI:', input);
+
+    try {
+      const {output} = await adaptiveRemindersPrompt(input);
+      if (!output) {
+        throw new Error("AI returned a null or undefined output.");
+      }
+      return output; 
+    } catch (error) {
+      // ---- Logging untuk menangkap error yang spesifik dari AI ----
+      console.error('Error saat memanggil model AI:', error);
+      throw new Error('Gagal menghasilkan pengingat cerdas. Silakan periksa log server.');
     }
-    return output;
   }
 );
