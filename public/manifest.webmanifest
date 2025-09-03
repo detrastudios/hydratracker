@@ -1,0 +1,16 @@
+{
+  "name": "HydraTracker",
+  "short_name": "HydraTracker",
+  "description": "Your personal hydration companion to track water intake and stay healthy.",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E8F3FF",
+  "theme_color": "#4A90E2"
+}
