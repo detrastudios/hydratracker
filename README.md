@@ -1,5 +1,5 @@
-# Firebase Studio
+# hydratracker
 
-This is a NextJS starter in Firebase Studio.
+Ini adalah proyek awal NextJS di Firebase Studio untuk aplikasi HydraTracker.
 
-To get started, take a look at src/app/page.tsx.
+Untuk memulai, lihat `src/app/page.tsx`.
