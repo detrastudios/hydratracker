@@ -20,6 +20,7 @@ import {
   isSameDay,
   add,
 } from "date-fns";
+import { id } from "date-fns/locale";
 import type { IntakeRecord } from "@/lib/types";
 
 type View = "day" | "week" | "month";
@@ -33,11 +34,11 @@ const processData = (records: IntakeRecord[], view: View) => {
     
     const hourlyData: { [key: string]: number } = {};
     for (let i=0; i < 24; i++) {
-        hourlyData[format(add(today, { hours: i }), "ha")] = 0;
+        hourlyData[format(add(today, { hours: i }), "ha", { locale: id })] = 0;
     }
 
     todaysRecords.forEach(r => {
-        const hour = format(new Date(r.timestamp), "ha");
+        const hour = format(new Date(r.timestamp), "ha", { locale: id });
         hourlyData[hour] = (hourlyData[hour] || 0) + r.amount;
     });
 
@@ -53,7 +54,7 @@ const processData = (records: IntakeRecord[], view: View) => {
         const dailyTotal = records
             .filter(r => isSameDay(new Date(r.timestamp), day))
             .reduce((sum, r) => sum + r.amount, 0);
-        return { label: format(day, 'EEE'), intake: dailyTotal };
+        return { label: format(day, 'EEE', { locale: id }), intake: dailyTotal };
     });
   }
 
@@ -67,7 +68,7 @@ const processData = (records: IntakeRecord[], view: View) => {
         const weeklyTotal = records
             .filter(r => isWithinInterval(new Date(r.timestamp), { start: week, end: weekEnd }))
             .reduce((sum, r) => sum + r.amount, 0);
-        return { label: `Week ${index + 1}`, intake: weeklyTotal };
+        return { label: `Minggu ${index + 1}`, intake: weeklyTotal };
     });
   }
 
@@ -81,27 +82,33 @@ export function HistoryClient() {
 
   const chartData = processData(intakeHistory, view);
 
+  const viewLabels = {
+    day: "hari",
+    week: "minggu",
+    month: "bulan"
+  }
+
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Consumption History</h1>
-        <p className="text-muted-foreground">Review your hydration habits over time.</p>
+        <h1 className="text-3xl font-bold">Riwayat Konsumsi</h1>
+        <p className="text-muted-foreground">Tinjau kebiasaan hidrasi Anda dari waktu ke waktu.</p>
       </div>
 
       <Card>
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex-1">
-              <CardTitle>Your Progress</CardTitle>
+              <CardTitle>Progres Anda</CardTitle>
               <CardDescription>
-                Viewing consumption for this {view}.
+                Melihat konsumsi untuk {viewLabels[view]} ini.
               </CardDescription>
             </div>
             <Tabs value={view} onValueChange={(v) => setView(v as View)}>
               <TabsList>
-                <TabsTrigger value="day">Day</TabsTrigger>
-                <TabsTrigger value="week">Week</TabsTrigger>
-                <TabsTrigger value="month">Month</TabsTrigger>
+                <TabsTrigger value="day">Hari</TabsTrigger>
+                <TabsTrigger value="week">Minggu</TabsTrigger>
+                <TabsTrigger value="month">Bulan</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
@@ -111,7 +118,7 @@ export function HistoryClient() {
                 <ConsumptionChart data={chartData} />
             ) : (
                 <div className="text-center py-16">
-                    <p className="text-muted-foreground">No data yet. Start logging your water intake!</p>
+                    <p className="text-muted-foreground">Belum ada data. Mulai catat asupan air Anda!</p>
                 </div>
             )}
         </CardContent>

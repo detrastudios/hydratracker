@@ -9,9 +9,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/", label: "Dashboard", icon: Droplets },
-  { href: "/history", label: "History", icon: History },
-  { href: "/settings", label: "Settings", icon: Cog },
+  { href: "/", label: "Dasbor", icon: Droplets },
+  { href: "/history", label: "Riwayat", icon: History },
+  { href: "/settings", label: "Pengaturan", icon: Cog },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {

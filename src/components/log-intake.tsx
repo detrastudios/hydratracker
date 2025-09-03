@@ -25,8 +25,8 @@ export function LogIntake() {
   const handlePredefinedAdd = (amount: number) => {
     addIntake(amount);
     toast({
-      title: "Intake Logged!",
-      description: `You've added ${amount}ml.`,
+      title: "Asupan Dicatat!",
+      description: `Anda telah menambahkan ${amount}ml.`,
     });
   };
 
@@ -35,8 +35,8 @@ export function LogIntake() {
     if (amount > 0) {
       addIntake(amount);
       toast({
-        title: "Intake Logged!",
-        description: `You've added ${amount}ml.`,
+        title: "Asupan Dicatat!",
+        description: `Anda telah menambahkan ${amount}ml.`,
       });
       reset();
       setIsCustom(false);
@@ -48,7 +48,7 @@ export function LogIntake() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <GlassWater className="text-primary" />
-          Log Your Intake
+          Catat Asupan Anda
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -70,16 +70,16 @@ export function LogIntake() {
           <form onSubmit={handleSubmit(onCustomSubmit)} className="space-y-2">
             <Input
               type="number"
-              placeholder="Enter custom amount (ml)"
+              placeholder="Masukkan jumlah khusus (ml)"
               {...register("customAmount", { valueAsNumber: true, required: true, min: 1 })}
               className={cn(errors.customAmount && "border-destructive")}
             />
             <div className="flex gap-2">
               <Button type="submit" className="w-full">
-                Add Custom Amount
+                Tambah Jumlah Khusus
               </Button>
               <Button variant="ghost" onClick={() => setIsCustom(false)}>
-                Cancel
+                Batal
               </Button>
             </div>
           </form>
@@ -90,7 +90,7 @@ export function LogIntake() {
             onClick={() => setIsCustom(true)}
           >
             <Plus className="mr-2 h-4 w-4" />
-            Add Custom Amount
+            Tambah Jumlah Khusus
           </Button>
         )}
       </CardContent>

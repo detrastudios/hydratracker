@@ -37,11 +37,11 @@ import { ScrollArea } from "./ui/scroll-area";
 import type { Reminder } from "@/lib/types";
 
 const settingsSchema = z.object({
-  dailyGoal: z.number().min(1, "Goal must be positive."),
-  wakeUpTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
-  bedTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:mm)."),
+  dailyGoal: z.number().min(1, "Target harus positif."),
+  wakeUpTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Format waktu tidak valid (JJ:mm)."),
+  bedTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Format waktu tidak valid (JJ:mm)."),
   activityLevel: z.enum(['sedentary', 'lightlyActive', 'moderatelyActive', 'veryActive', 'extraActive']),
-  climate: z.string().min(1, "Climate is required."),
+  climate: z.string().min(1, "Iklim diperlukan."),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -59,8 +59,8 @@ export function SettingsClient() {
   const onSubmit: SubmitHandler<SettingsFormValues> = (data) => {
     updateSettings(data);
     toast({
-      title: "Settings Saved",
-      description: "Your new settings have been applied.",
+      title: "Pengaturan Disimpan",
+      description: "Pengaturan baru Anda telah diterapkan.",
     });
   };
   
@@ -79,18 +79,18 @@ export function SettingsClient() {
         if (result && result.reminders) {
             updateReminders(result.reminders);
             toast({
-                title: "Reminders Generated!",
-                description: `Successfully created ${result.reminders.length} smart reminders.`,
+                title: "Pengingat Dihasilkan!",
+                description: `Berhasil membuat ${result.reminders.length} pengingat cerdas.`,
             });
         } else {
-            throw new Error("No reminders were generated.");
+            throw new Error("Tidak ada pengingat yang dihasilkan.");
         }
     } catch (error) {
-        console.error("Failed to generate reminders:", error);
+        console.error("Gagal menghasilkan pengingat:", error);
         toast({
             variant: "destructive",
-            title: "Generation Failed",
-            description: "Could not generate smart reminders. Please try again.",
+            title: "Gagal Menghasilkan",
+            description: "Tidak dapat menghasilkan pengingat cerdas. Silakan coba lagi.",
         });
     } finally {
         setIsGenerating(false);
@@ -98,15 +98,15 @@ export function SettingsClient() {
   };
 
   if (isLoading) {
-    return <div>Loading settings...</div>;
+    return <div>Memuat pengaturan...</div>;
   }
   
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold">Settings</h1>
+        <h1 className="text-3xl font-bold">Pengaturan</h1>
         <p className="text-muted-foreground">
-          Customize your hydration goals and reminder preferences.
+          Sesuaikan target hidrasi dan preferensi pengingat Anda.
         </p>
       </div>
 
@@ -116,10 +116,10 @@ export function SettingsClient() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Target className="text-primary" />
-                Hydration Goal
+                Target Hidrasi
               </CardTitle>
               <CardDescription>
-                Set your personal daily water intake goal and other lifestyle details.
+                Atur target asupan air harian pribadi Anda dan detail gaya hidup lainnya.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -128,7 +128,7 @@ export function SettingsClient() {
                 name="dailyGoal"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Daily Goal (ml)</FormLabel>
+                    <FormLabel>Target Harian (ml)</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value, 10))}/>
                     </FormControl>
@@ -142,7 +142,7 @@ export function SettingsClient() {
                   name="wakeUpTime"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Wake-up Time</FormLabel>
+                      <FormLabel>Waktu Bangun</FormLabel>
                       <FormControl>
                         <Input type="time" {...field} />
                       </FormControl>
@@ -155,7 +155,7 @@ export function SettingsClient() {
                   name="bedTime"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Bedtime</FormLabel>
+                      <FormLabel>Waktu Tidur</FormLabel>
                       <FormControl>
                         <Input type="time" {...field} />
                       </FormControl>
@@ -169,19 +169,19 @@ export function SettingsClient() {
                   name="activityLevel"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Activity Level</FormLabel>
+                      <FormLabel>Tingkat Aktivitas</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select your activity level" />
+                            <SelectValue placeholder="Pilih tingkat aktivitas Anda" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="sedentary">Sedentary (little or no exercise)</SelectItem>
-                          <SelectItem value="lightlyActive">Lightly Active (light exercise/sports 1-3 days/week)</SelectItem>
-                          <SelectItem value="moderatelyActive">Moderately Active (moderate exercise/sports 3-5 days/week)</SelectItem>
-                          <SelectItem value="veryActive">Very Active (hard exercise/sports 6-7 days a week)</SelectItem>
-                          <SelectItem value="extraActive">Extra Active (very hard exercise & physical job)</SelectItem>
+                          <SelectItem value="sedentary">Sedentari (sedikit atau tanpa olahraga)</SelectItem>
+                          <SelectItem value="lightlyActive">Aktivitas Ringan (olahraga ringan 1-3 hari/minggu)</SelectItem>
+                          <SelectItem value="moderatelyActive">Aktivitas Sedang (olahraga sedang 3-5 hari/minggu)</SelectItem>
+                          <SelectItem value="veryActive">Sangat Aktif (olahraga berat 6-7 hari seminggu)</SelectItem>
+                          <SelectItem value="extraActive">Ekstra Aktif (olahraga sangat berat & pekerjaan fisik)</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -193,18 +193,18 @@ export function SettingsClient() {
                   name="climate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Your Climate</FormLabel>
+                      <FormLabel>Iklim Anda</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Hot and dry" {...field} />
+                        <Input placeholder="cth., Panas dan kering" {...field} />
                       </FormControl>
-                      <FormDescription>Describe the climate you're currently in.</FormDescription>
+                      <FormDescription>Jelaskan iklim tempat Anda saat ini.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
             </CardContent>
           </Card>
-          <Button type="submit">Save Settings</Button>
+          <Button type="submit">Simpan Pengaturan</Button>
         </form>
       </Form>
       
@@ -212,19 +212,19 @@ export function SettingsClient() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Zap className="text-accent" />
-            Smart Reminders
+            Pengingat Cerdas
           </CardTitle>
           <CardDescription>
-            Use AI to generate a personalized reminder schedule based on your settings.
+            Gunakan AI untuk membuat jadwal pengingat yang dipersonalisasi berdasarkan pengaturan Anda.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Button onClick={handleGenerateReminders} disabled={isGenerating}>
             {isGenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4" />}
-            {isGenerating ? "Generating..." : "Generate AI Reminders"}
+            {isGenerating ? "Menghasilkan..." : "Hasilkan Pengingat AI"}
           </Button>
 
-          <h3 className="font-semibold pt-4">Your Reminders</h3>
+          <h3 className="font-semibold pt-4">Pengingat Anda</h3>
           {settings.reminders.length > 0 ? (
             <ScrollArea className="h-48 w-full rounded-md border p-4">
               <ul className="space-y-3">
@@ -241,7 +241,7 @@ export function SettingsClient() {
             </ScrollArea>
           ) : (
             <p className="text-sm text-muted-foreground text-center py-8">
-              No reminders set. Generate some smart reminders or add them manually.
+              Tidak ada pengingat yang ditetapkan. Hasilkan beberapa pengingat cerdas atau tambahkan secara manual.
             </p>
           )}
         </CardContent>

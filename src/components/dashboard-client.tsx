@@ -25,11 +25,11 @@ export function DashboardClient() {
   const remaining = Math.max(0, settings.dailyGoal - totalToday);
   const glassesRemaining = remaining > 0 ? Math.ceil(remaining / 250) : 0;
   
-  let encouragement = "You're doing great! Keep it up.";
+  let encouragement = "Anda hebat! Teruslah minum.";
   if (remaining > 0) {
-    encouragement = `Only ${remaining.toLocaleString()}ml to go. That's about ${glassesRemaining} small glass${glassesRemaining > 1 ? 'es' : ''}!`;
+    encouragement = `Tinggal ${remaining.toLocaleString()}ml lagi. Sekitar ${glassesRemaining} gelas kecil lagi!`;
   } else {
-    encouragement = "Goal achieved! Fantastic job staying hydrated.";
+    encouragement = "Target tercapai! Kerja bagus untuk tetap terhidrasi.";
   }
 
   return (
@@ -41,7 +41,7 @@ export function DashboardClient() {
         <div className="lg:col-span-3 space-y-8">
            <Card>
             <CardHeader>
-              <CardTitle className="flex items-center"><Droplets className="mr-2 text-accent" />Today's Goal</CardTitle>
+              <CardTitle className="flex items-center"><Droplets className="mr-2 text-accent" />Target Hari Ini</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-lg">
