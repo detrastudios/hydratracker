@@ -10,6 +10,12 @@ export type Reminder = {
 };
 
 export type UserSettings = {
+  name: string;
+  dob: string;
+  height: number;
+  weight: number;
+  gender: 'male' | 'female' | 'other' | 'preferNotToSay';
+  profilePhoto: string;
   dailyGoal: number;
   wakeUpTime: string;
   bedTime: string;

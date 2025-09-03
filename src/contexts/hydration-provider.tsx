@@ -40,6 +40,12 @@ export function HydrationProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [settings, setSettings] = useState<UserSettings>(() =>
     getInitialState<UserSettings>("hydration-settings", {
+      name: "Pengguna",
+      dob: "2000-01-01",
+      height: 170,
+      weight: 65,
+      gender: "preferNotToSay",
+      profilePhoto: "",
       dailyGoal: 2000,
       wakeUpTime: "07:00",
       bedTime: "23:00",
