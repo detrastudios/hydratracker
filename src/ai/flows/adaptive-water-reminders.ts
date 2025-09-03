@@ -16,7 +16,7 @@ import {z} from 'genkit';
 // Define the input schema for the adaptive water reminders flow.
 const AdaptiveRemindersInputSchema = z.object({
   dailyGoal: z.number().describe('The user’s daily water intake goal in ml.'),
-  lastIntake: z.string().optional().describe('The timestamp of the last water intake (ISO format).'),
+  lastIntake: z.string().nullable().optional().describe('The timestamp of the last water intake (ISO format).'),
   wakeUpTime: z.string().describe('The user’s wake-up time (HH:mm).'),
   bedTime: z.string().describe('The user’s bed time (HH:mm).'),
   activityLevel: z
@@ -53,7 +53,7 @@ const adaptiveRemindersPrompt = ai.definePrompt({
 
   Consider the following context about the user:
   - Daily water intake goal: {{dailyGoal}} ml
-  - Last water intake: {{lastIntake}}
+  {{#if lastIntake}}- Last water intake: {{lastIntake}}{{/if}}
   - Wake-up time: {{wakeUpTime}}
   - Bed time: {{bedTime}}
   - Activity level: {{activityLevel}}

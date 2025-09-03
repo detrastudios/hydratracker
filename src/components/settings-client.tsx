@@ -85,7 +85,7 @@ export function SettingsClient() {
     setIsGenerating(true);
     try {
         const currentSettings = form.getValues();
-        const lastIntake = intakeHistory.length > 0 ? intakeHistory[intakeHistory.length - 1].timestamp : undefined;
+        const lastIntakeTimestamp = intakeHistory.length > 0 ? intakeHistory[intakeHistory.length - 1].timestamp : null;
         
         const result = await generateAdaptiveReminders({
             dailyGoal: currentSettings.dailyGoal,
@@ -93,7 +93,7 @@ export function SettingsClient() {
             bedTime: currentSettings.bedTime,
             activityLevel: currentSettings.activityLevel,
             climate: currentSettings.climate,
-            lastIntake: lastIntake,
+            lastIntake: lastIntakeTimestamp,
         });
 
         if (result && result.reminders) {
