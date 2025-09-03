@@ -43,21 +43,35 @@ export function SettingsClient() {
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsSchema),
-    defaultValues: settings,
+    defaultValues: {
+      name: "",
+      dob: "",
+      height: 0,
+      weight: 0,
+      gender: "preferNotToSay",
+      profilePhoto: "",
+      dailyGoal: 2000,
+      wakeUpTime: "07:00",
+      bedTime: "23:00",
+      activityLevel: "moderatelyActive",
+      climate: "",
+    },
   });
   
   useEffect(() => {
-    form.reset(settings);
-    if (settings.dob) {
-      try {
-        const birthDate = parseISO(settings.dob);
-        const calculatedAge = differenceInYears(new Date(), birthDate);
-        setAge(calculatedAge);
-      } catch (e) {
-        setAge(null);
+    if (!isLoading) {
+      form.reset(settings);
+      if (settings.dob) {
+        try {
+          const birthDate = parseISO(settings.dob);
+          const calculatedAge = differenceInYears(new Date(), birthDate);
+          setAge(calculatedAge);
+        } catch (e) {
+          setAge(null);
+        }
       }
     }
-  }, [settings, form]);
+  }, [settings, form, isLoading]);
 
   const onSubmit: SubmitHandler<SettingsFormValues> = (data) => {
     updateSettings(data);
