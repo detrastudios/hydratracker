@@ -65,7 +65,7 @@ const adaptiveRemindersPrompt = ai.definePrompt({
   Prioritize reminders during periods of activity.
   If the climate is hot, remind the user to drink more frequently.
   If last intake is known, take that into consideration when reminding the user.
-  Omit any intro or outro text, and respond with ONLY the reminders in JSON format.
+  You must respond with ONLY a valid JSON object that conforms to the output schema. Do not add any introductory or concluding text.
   `,
 });
 
@@ -78,6 +78,9 @@ const adaptiveRemindersFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await adaptiveRemindersPrompt(input);
-    return output!;
+    if (!output) {
+      throw new Error("AI failed to generate a response.");
+    }
+    return output;
   }
 );
