@@ -15,13 +15,13 @@ import {z} from 'genkit';
 
 // Define the input schema for the adaptive water reminders flow.
 const AdaptiveRemindersInputSchema = z.object({
-  dailyGoal: z.number().describe('The user\u2019s daily water intake goal in ml.'),
+  dailyGoal: z.number().describe('The user’s daily water intake goal in ml.'),
   lastIntake: z.string().optional().describe('The timestamp of the last water intake (ISO format).'),
-  wakeUpTime: z.string().describe('The user\u2019s wake-up time (HH:mm).'),
-  bedTime: z.string().describe('The user\u2019s bed time (HH:mm).'),
+  wakeUpTime: z.string().describe('The user’s wake-up time (HH:mm).'),
+  bedTime: z.string().describe('The user’s bed time (HH:mm).'),
   activityLevel: z
     .enum(['sedentary', 'lightlyActive', 'moderatelyActive', 'veryActive', 'extraActive'])
-    .describe('The user\u2019s activity level.'),
+    .describe('The user’s activity level.'),
   climate: z.string().describe('The climate the user is in (e.g., temperate, hot, dry).'),
 });
 
@@ -77,11 +77,7 @@ const adaptiveRemindersFlow = ai.defineFlow(
     outputSchema: AdaptiveRemindersOutputSchema,
   },
   async input => {
-    const {output} = await ai.generate({
-      model: 'googleai/gemini-2.5-flash',
-      prompt: adaptiveRemindersPrompt.compile({input}),
-      output: {schema: AdaptiveRemindersOutputSchema},
-    });
+    const {output} = await adaptiveRemindersPrompt(input);
     return output!;
   }
 );
