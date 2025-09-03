@@ -35,7 +35,7 @@ const settingsSchema = z.object({
 type SettingsFormValues = z.infer<typeof settingsSchema>;
 
 export function SettingsClient() {
-  const { settings, updateSettings, updateReminders, isLoading } = useHydration();
+  const { settings, updateSettings, updateReminders, isLoading, intakeHistory } = useHydration();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -85,12 +85,15 @@ export function SettingsClient() {
     setIsGenerating(true);
     try {
         const currentSettings = form.getValues();
+        const lastIntake = intakeHistory.length > 0 ? intakeHistory[intakeHistory.length - 1].timestamp : undefined;
+        
         const result = await generateAdaptiveReminders({
             dailyGoal: currentSettings.dailyGoal,
             wakeUpTime: currentSettings.wakeUpTime,
             bedTime: currentSettings.bedTime,
             activityLevel: currentSettings.activityLevel,
             climate: currentSettings.climate,
+            lastIntake: lastIntake,
         });
 
         if (result && result.reminders) {
