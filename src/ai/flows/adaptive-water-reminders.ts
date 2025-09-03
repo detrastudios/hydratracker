@@ -77,7 +77,11 @@ const adaptiveRemindersFlow = ai.defineFlow(
     outputSchema: AdaptiveRemindersOutputSchema,
   },
   async input => {
-    const {output} = await adaptiveRemindersPrompt(input);
+    const {output} = await ai.generate({
+      model: 'googleai/gemini-2.5-flash',
+      prompt: adaptiveRemindersPrompt.compile({input}),
+      output: {schema: AdaptiveRemindersOutputSchema},
+    });
     return output!;
   }
 );
